@@ -1,5 +1,7 @@
 from django.db import models
 from  django.conf import settings
+from django.urls import reverse, reverse_lazy
+
 
 class Room(models.Model):
     ROOM_CATS = (
@@ -24,3 +26,9 @@ class Booking(models.Model):
 
     def __str__(self):
         return f'{self.user} has booked {self.room} from {self.check_in} to {self.check_out}'
+
+    def get_room_category(self):
+        return dict(self.room.ROOM_CATS).get(self.room.category)
+
+    def get_cancel_booking_url(self):
+        return reverse_lazy('cancel', kwargs={'pk': self.pk})

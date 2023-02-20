@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.urls import reverse
-from django.views.generic import ListView, FormView, View
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, View, DeleteView
 from .models import Room, Booking
 from .forms import AvailabilityForm
 from .booking_functions.availability import check_availability
@@ -11,7 +11,6 @@ def room_list_view(request):
     """список всех категорий номеров"""
     room = Room.objects.all()[0]
     room_categories = dict(room.ROOM_CATS)
-    print(room_categories)
     room_list = []
     for room_cat_short, room_cat_full in room_categories.items():
         room_url = reverse('room', kwargs={'category': room_cat_short})
@@ -78,27 +77,8 @@ class RoomView(View):
             return HttpResponse(
                 'Извините, все комнаты данной категории забронированы! Выберите, пожалуйста, другую категорию.')
 
+class CancelBookingView(DeleteView):
+    model = Booking
+    template_name = 'hotel/cancel_booking.html'
+    success_url = reverse_lazy('bookings')
 
-class BookingView(FormView):
-    form_class = AvailabilityForm
-    template_name = 'hotel/booking_room.html'
-
-    def form_valid(self, form):
-        data = form.cleaned_data
-        print(data)
-        room_list = Room.objects.filter(category=data['room_category'])
-        available_rooms = []
-        for room in room_list:
-            if check_availability(room, data['check_in'], data['check_out']):
-                available_rooms.append(room)
-        if len(available_rooms) > 0:
-            room = available_rooms[0]
-            booking = Booking.objects.create(user=self.request.user,
-                                             room=room,
-                                             check_in=data['check_in'],
-                                             check_out=data['check_out'])
-            booking.save()
-            return HttpResponse(booking)
-        else:
-            return HttpResponse(
-                'Извините, все комнаты данной категории забронированы! Выберите, пожалуйста, другую категорию. ')
