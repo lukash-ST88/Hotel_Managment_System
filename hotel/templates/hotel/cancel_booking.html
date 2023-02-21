@@ -15,48 +15,37 @@
 
 <body>
 
-    <!-- Main Content -->
-    <div class="content">
 
-        <!-- Room Image -->
+    <div class="content">
         <div class="image">
             <img
-                src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60">
+                src="{{booking.room.cat.image.url}}">
         </div>
-
-        <!-- Room Details -->
         <div class="room">
 
-            <!-- Div 1: Back to Home -->
             <div class="home">
-                <a href="{% url 'rooms' %}"><i class="fas fa-arrow-alt-circle-left">Home</i></a>
+                <a href="{% url 'rooms' %}"><i class="fas fa-arrow-alt-circle-left"> Home</i></a>
             </div>
 
-            <!-- Div 2: Room Information -->
             <div class="room-info">
-                <h1>{{room_category}}</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id optio rem saepe culpa architecto tempora
-                    numquam debitis reiciendis! Quaerat laudantium consequuntur doloribus quod placeat consectetur
-                    veniam,
-                    rerum repellendus magnam labore. </p>
+                <h1>Canceling the room: {{booking.room.number}}</h1>
             </div>
 
             <!-- Div 3: Room Booking Form -->
             <form id="booking-form" action="" method="POST">
 
                 {% csrf_token %}
-                <h2>Are you sure you wanna cancel this Booking? Details-</h2>
-                <h3>{{booking.room.number}}{{booking.get_room_category}} {{booking}}</h3>
-                <!-- Input Div -->
+                <h2>Dear {{booking.user}}</h2>
+                <h2>Are you sure you wanna cancel this Booking?</h2>
                 <div class="input-div">
                     <button type="submit">Cancel the Booking</button>
                 </div>
 
             </form>
 
-        </div> <!-- END Room Div -->
+        </div>
 
-    </div> <!-- END Main Content Div -->
+    </div>
 
 </body>
 

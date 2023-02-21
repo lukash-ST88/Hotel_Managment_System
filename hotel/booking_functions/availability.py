@@ -3,7 +3,7 @@ from hotel.models import Room, Booking
 
 
 def check_availability(room, check_in, check_out):
-    """пероверка доступности комнаты"""
+    """check if any of rooms in a certain category is available"""
     avail_list = []
     booking_list = Booking.objects.filter(room=room)
     for booking in booking_list:

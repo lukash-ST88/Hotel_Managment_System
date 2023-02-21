@@ -1,26 +1,21 @@
+from django.contrib.auth import logout
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, View, DeleteView
-from .models import Room, Booking
+from .models import Room, Booking, Category
 from .forms import AvailabilityForm
 from .booking_functions.availability import check_availability
 
 
-def room_list_view(request):
-    """список всех категорий номеров"""
-    room = Room.objects.all()[0]
-    room_categories = dict(room.ROOM_CATS)
-    room_list = []
-    for room_cat_short, room_cat_full in room_categories.items():
-        room_url = reverse('room', kwargs={'category': room_cat_short})
-        room_list.append((room_cat_full, room_url))
-    context = {"room_list": room_list}
-    return render(request, 'hotel/room_list.html', context)
+class RoomCategoryListView(ListView):
+    model = Category
+    template_name = 'hotel/rooms.html'
+    context_object_name = 'room_cats'
 
 
 class BookingListView(ListView):
-    """список бронирований номеров для сотрудников и клиентов"""
+    """A list of bookings for the staff and clients"""
     template_name = "hotel/booking_list.html"
     context_object_name = 'bookings'
 
@@ -34,27 +29,25 @@ class BookingListView(ListView):
 
 
 class RoomView(View):
-    """бронированние комнаты"""
+    """Booking of a room"""
 
     def get(self, request, *args, **kwargs):
         category = self.kwargs.get('category', None)
         form = AvailabilityForm()
-        room_list = Room.objects.filter(category=category)
-
+        room_list = Room.objects.filter(cat__slug=category)
         if len(room_list) > 0:
             room = room_list[0]
-            room_category = dict(room.ROOM_CATS).get(room.category, None)
             context = {
-                'room_category': room_category,
+                'room': room,
                 'form': form,
             }
             return render(request, 'hotel/room.html', context)
         else:
-            return HttpResponse('Извините, данной категории не существует')
+            return HttpResponse('Sorry! This category does not exist!')
 
     def post(self, request, *args, **kwargs):
         category = self.kwargs.get('category', None)
-        room_list = Room.objects.filter(category=category)
+        room_list = Room.objects.filter(cat__slug=category)
         form = AvailabilityForm(request.POST)
 
         if form.is_valid():
@@ -77,11 +70,17 @@ class RoomView(View):
             return HttpResponse(booking)
         else:
             return HttpResponse(
-                'Извините, все комнаты данной категории забронированы! Выберите, пожалуйста, другую категорию.')
+                'Sorry! All rooms of this kind of category is booked! Please, choose another room.')
 
 
 class CancelBookingView(DeleteView):
-    """отмена бронирования"""
+    """Canceling of a booking"""
     model = Booking
     template_name = 'hotel/cancel_booking.html'
     success_url = reverse_lazy('bookings')
+    context_object_name = 'booking'
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('rooms')

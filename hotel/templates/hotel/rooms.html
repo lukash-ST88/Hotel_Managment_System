@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel-ST88</title>
+    <link rel="stylesheet" href="{% static 'hotel/css/home.css'%}?20190811">
+</head>
+<body>
+<ul class="mainmenu">
+    <li><h1 class="brand">Hotel Station-88</h1></li>
+    {% if request.user.is_authenticated %}
+    <li><h1 class="brand"><a href="{% url 'bookings' %}">Booked rooms</a></h1></li>
+    <li class="last"><h1 class="brand">{{user.username}}|<a href="{% url 'logout' %}">LogOut</a></h1></li>
+    {% else %}
+    <li class="last"><h1 class="brand"><a href="{% url 'account_signup' %}">SignUp</a> | <a href="{% url 'account_login' %}">LogIn</a></h1></li>
+    {% endif %}
+</ul>
+
+<div class="content">
+    {% for cat in room_cats %}
+    <div class="room">
+        <a href="{{cat.get_absolute_url}}">
+            <img src="{{cat.image.url}}">
+            <h2>{{cat.name}}</h2>
+            <p>{{cat.description|linebreaks|truncatewords:20}}</p>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>

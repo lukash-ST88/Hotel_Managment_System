@@ -8,28 +8,23 @@
     <title>Room Detail</title>
     <script src="https://kit.fontawesome.com/692189991f.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'hotel/css/detail.css' %}">
-
 </head>
 
 <body>
-
 <div class="content">
     <div class="image">
         <img
-                src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60">
+                src="{{room.cat.image.url}}">
     </div>
     <div class="room">
         <div class="home">
             <a href="{% url 'rooms' %}"><i class="fas fa-arrow-alt-circle-left">Home</i></a>
         </div>
         <div class="room-info">
-            <h1>{{room_category}}</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id optio rem saepe culpa architecto tempora
-                numquam debitis reiciendis! Quaerat laudantium consequuntur doloribus quod placeat consectetur
-                veniam,
-                rerum repellendus magnam labore.</p>
+            <h1>{{room.cat.name}}</h1>
+            <p>{{room.cat.description}}</p>
         </div>
-        <form id="booking-form" action="" method="POST">
+        <form id="booking-form" action="{% url 'bookings' %}" method="POST">
             {% csrf_token %}
             <div class="input-div">
                 <label for="id_check_in">Check In : </label>
@@ -40,10 +35,11 @@
                 <input type="datetime-local" id="id_check_out" name="check_out">
             </div>
             <div class="input-div">
-                <button type="submit">Забронировать</button>
+                <button type="submit">Book the room </button>
             </div>
         </form>
     </div>
 </div>
 </body>
+
 </html>
