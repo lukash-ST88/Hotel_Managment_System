@@ -34,6 +34,8 @@ class BookingListView(ListView):
 
 
 class RoomView(View):
+    """бронированние комнаты"""
+
     def get(self, request, *args, **kwargs):
         category = self.kwargs.get('category', None)
         form = AvailabilityForm()
@@ -77,8 +79,9 @@ class RoomView(View):
             return HttpResponse(
                 'Извините, все комнаты данной категории забронированы! Выберите, пожалуйста, другую категорию.')
 
+
 class CancelBookingView(DeleteView):
+    """отмена бронирования"""
     model = Booking
     template_name = 'hotel/cancel_booking.html'
     success_url = reverse_lazy('bookings')
-
