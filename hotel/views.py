@@ -6,6 +6,7 @@ from django.views.generic import ListView, View, DeleteView
 from .models import Room, Booking, Category
 from .forms import AvailabilityForm
 from .booking_functions.availability import check_availability
+from allauth.account.views import LoginView
 
 
 class RoomCategoryListView(ListView):
@@ -84,3 +85,6 @@ class CancelBookingView(DeleteView):
 def logout_user(request):
     logout(request)
     return redirect('rooms')
+
+
+

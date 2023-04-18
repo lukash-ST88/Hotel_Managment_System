@@ -5,7 +5,6 @@ admin.site.register(Room)
 admin.site.register(Booking)
 admin.site.register(Category)
 
-#TODO: добавить rest_framework
-#TODO: добавить тесты
+
+#TODO: настроить booking room и user в тестах
 #TODO: рефактор html
-#TODO: разобраться с аутентификацией allauth

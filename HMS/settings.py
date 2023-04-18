@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
-import environ
+from .config import SECRET_KEY, DEBUG, ALLOWED_HOSTS, POSTGRES_HOST, POSTGRES_NAME, POSTGRES_PASS, \
+    POSTGRES_PORT, POSTGRES_USER
 
 #защита secret_key
-env = environ.Env(DEBUG=(bool, True))
+# env = environ.Env(DEBUG=(bool, True))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,13 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-environ.Env.read_env()
-SECRET_KEY = env.str('SECRET_KEY')
+
+SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ALLOWED_HOSTS
 
 
 # Application definition
@@ -88,11 +89,11 @@ WSGI_APPLICATION = 'HMS.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'HMS',
-        'USER': 'lukashST88',
-        'PASSWORD': 'fylhtq03',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': POSTGRES_NAME,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASS,
+        'HOST': POSTGRES_HOST,
+        'PORT': POSTGRES_PORT,
     }
 }
 
@@ -156,3 +157,5 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_REDIRECT_URL = "/"
