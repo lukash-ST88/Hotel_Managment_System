@@ -22,10 +22,10 @@ class BookingListView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         if self.request.user.is_staff:
-            booking_list = Booking.objects.all()
+            booking_list = Booking.objects.all().select_related('room')
             return booking_list
         else:
-            booking_list = Booking.objects.filter(user=self.request.user)
+            booking_list = Booking.objects.filter(user=self.request.user).select_related('room')
             return booking_list
 
 
