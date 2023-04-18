@@ -21,7 +21,7 @@
             <a href="{% url 'rooms' %}"><i class="fas fa-arrow-alt-circle-left">Home</i></a>
         </div>
         <div class="room-info">
-            <h1>{{room.cat.name}}</h1>
+            <h1 id="room-name">{{room.cat.name}}</h1>
             <p>{{room.cat.description}}</p>
         </div>
         <form id="booking-form" action="{% url 'bookings' %}" method="POST">
