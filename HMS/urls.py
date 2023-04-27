@@ -25,9 +25,9 @@ router.register(r'rooms', RoomViewSet, basename='room')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('hotel.urls')),
     path('accounts/', include('allauth.urls')),
-    path('', include(router.urls)),
+    path('dr', include(router.urls)),
+    path('', include('hotel.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

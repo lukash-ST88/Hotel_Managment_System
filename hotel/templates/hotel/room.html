@@ -24,7 +24,7 @@
             <h1 id="room-name">{{room.cat.name}}</h1>
             <p>{{room.cat.description}}</p>
         </div>
-        <form id="booking-form" action="{% url 'bookings' %}" method="POST">
+        <form id="booking-form" action="{% url 'bookings' %}" method="post">
             {% csrf_token %}
             <div class="input-div">
                 <label for="id_check_in">Check In : </label>
