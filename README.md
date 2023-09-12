@@ -22,6 +22,7 @@ data by scanning all occupied data for this room.
 <li>redis-server
 
 <h4>Screen of application</h4>
+
 ![Screenshot_of_app.png](Screenshot_of_app.png)
 
 
@@ -30,7 +31,7 @@ data by scanning all occupied data for this room.
 <p>1. Clone git repository to your machine:</p>
 
 ```
-git clone git@github.com:lukash-ST88/Hotel_Managment_System.git
+git clone https://github.com/lukash-ST88/Hotel_Managment_System.git
 ```
 <p>2. Create and activate virtual environment:</p>
 
@@ -70,7 +71,7 @@ sudo service redis-server start
 <p> 6. Migrate data to database:</p>
 
 ```
-cd noncountries
+cd HMS
 python3 manage.py migrate
 ```
 <p>7. Run the application:</p>
