@@ -22,6 +22,7 @@ data by scanning all occupied data for this room.
 <li>redis-server
 
 <h4>Screen of application</h4>
+![Screenshot_of_app.png](Screenshot_of_app.png)
 
 
 <h4>Steps to activate the project on linux machine:</h4>
